@@ -1,7 +1,7 @@
 import os
 import telebot
 from flask import Flask, request
-from bot_funtions import create_bot, set_webhook, send_message, handle_command
+from telegram_utils import create_bot, set_webhook, send_message, handle_command
 
 app = Flask(__name__)
 
