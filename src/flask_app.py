@@ -1,19 +1,13 @@
 import os
 import telebot
 from flask import Flask, request
-
-from telegram_utils import create_bot, set_webhook, bot_handlers
+from telegram_utils import bot
 
 
 app = Flask(__name__)
 
 BOT_TOKEN = os.getenv('BOT_TOKEN')
 WEBHOOK_URL = os.getenv('WEBHOOK_URL')
-
-bot = create_bot(BOT_TOKEN)
-
-set_webhook(bot, WEBHOOK_URL)
-bot_handlers(bot)
 
 
 @app.route('/webhook', methods=['POST'])
