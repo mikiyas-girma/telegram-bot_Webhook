@@ -45,6 +45,8 @@ Before running the application, ensure you have the following:
 1. Run the `watch.py` script to monitor code modifications for automatically start && restart the server:
 
     ```bash
+    source .env
+
     python watch.py
     ```
 
