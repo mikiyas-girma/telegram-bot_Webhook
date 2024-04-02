@@ -1,34 +1,34 @@
 
-import subprocess
 import time
+import subprocess
 from watchdog.observers import Observer
-from watchdog.events import FileSystemEvent, FileSystemEventHandler
-
-bot_process = None
+from watchdog.events import FileSystemEventHandler
 
 
 class MyHandler(FileSystemEventHandler):
-    def on_modified(self, event: FileSystemEvent) -> None:
-        print("Bot code modified. Restarting bot...")
-        restart_bot()
+    def on_modified(self, event):
+        if event.src_path.endswith(".py"):
+            print("Detected code modification. Restarting server...")
+            restart_server()
 
 
-def restart_bot():
-    global bot_process
-    if bot_process is not None:
-        bot_process.kill()
-    bot_process = subprocess.Popen(["python3", "bot.py"])
+def restart_server():
+    global server_process
+    if server_process:
+        server_process.terminate()
+        server_process.wait()
+    print("Starting server...")
+    server_process = subprocess.Popen(["python3", "src/flask_app.py"])
 
 
 if __name__ == "__main__":
-    event_handler = MyHandler()
+    project_dir = '.'
     observer = Observer()
-    observer.schedule(event_handler, ".", recursive=True)
+    observer.schedule(MyHandler(), path=project_dir, recursive=True)
     observer.start()
 
-    # start the bot initially
-    subprocess.Popen(["python3", "bot.py"])
-    # restart_bot()
+    server_process = None
+    restart_server()
 
     try:
         while True:
