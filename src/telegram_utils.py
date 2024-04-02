@@ -1,5 +1,7 @@
+import logging
 import telebot
 import os
+from telebot import types
 
 BOT_TOKEN = os.getenv('BOT_TOKEN')
 WEBHOOK_URL = os.getenv('WEBHOOK_URL')
@@ -11,7 +13,7 @@ bot.set_webhook(WEBHOOK_URL)
 @bot.message_handler(commands=['start', 'hello'])
 def send_welcome(message):
     bot.send_message(message.chat.id, f"{message.from_user.first_name}" +
-                     " be geta to our bot!")
+                     " ye geta sra dink nw ")
 
 
 def send_message(bot, chat_id, text):
@@ -76,3 +78,45 @@ def handle_message(message):
     # Echo the message back to the user
     print(message.text)
     bot.send_message(message.chat.id, message.text)
+
+
+# bot.remove_webhook()
+
+
+@bot.inline_handler(lambda query: query.query == 'miki')
+def query_text(inline_query):
+    try:
+        m1 = types.InlineQueryResultArticle(
+            '100',
+            'the wine',
+            types.InputTextMessageContent('wine to water'),
+            url='you.com')
+        m2 = types.InlineQueryResultArticle(
+            '101',
+            'mike\'s ceo on',
+            types.InputTextMessageContent('no cache after all'),
+            url='soap.com')
+        w1 = types.InlineQueryResultArticle(
+            '2193',
+            '/start',
+            types.InputTextMessageContent('/start'))
+
+        bot.answer_inline_query(inline_query.id, [m1, m2, w1], cache_time=0)
+    except Exception as e:
+        logging.error("Error handling inline query: %s", e)
+        print(e)
+
+
+@bot.inline_handler(lambda query: query.query == 'admin')
+def query_admin(inline_query):
+    try:
+        a1 = types.InlineQueryResultArticle(
+            '11',
+            'Admin?',
+            types.InputTextMessageContent('mikias girma'),
+            url='mikegirma.vercel.app.com')
+
+        bot.answer_inline_query(inline_query.id, [a1], cache_time=0)
+    except Exception as e:
+        logging.error("Error handling inline query: %s", e)
+        print(e)

@@ -12,9 +12,9 @@ WEBHOOK_URL = os.getenv('WEBHOOK_URL')
 
 @app.route('/webhook', methods=['POST'])
 def webhook_handler():
-    update = request.json
-    if update and 'message' in update:
-        bot.process_new_updates([telebot.types.Update.de_json(update)])
+    update = telebot.types.Update.de_json(request.stream.read()
+                                          .decode('utf-8'))
+    bot.process_new_updates([update])
     return '', 200
 
 
