@@ -120,3 +120,31 @@ def query_admin(inline_query):
     except Exception as e:
         logging.error("Error handling inline query: %s", e)
         print(e)
+
+
+@bot.inline_handler(lambda query: query.query == 'photo')
+def query_photo(inline_query):
+    try:
+        r = types.InlineQueryResultPhoto(
+            '1',
+            'https://raw.githubusercontent.com/eternnoir/pyTelegramBotAPI/master/examples/detailed_example/kitten.jpg',
+            'https://raw.githubusercontent.com/eternnoir/pyTelegramBotAPI/master/examples/detailed_example/kitten.jpg',
+            input_message_content=types.InputTextMessageContent('ava photo'))
+
+        r2 = types.InlineQueryResultPhoto(
+            '2',
+            'https://raw.githubusercontent.com/eternnoir/pyTelegramBotAPI/master/examples/detailed_example/rooster.jpg',
+            'https://raw.githubusercontent.com/eternnoir/pyTelegramBotAPI/master/examples/detailed_example/rooster.jpg')
+
+        p1 = types.InlineQueryResultPhoto(
+            '3',
+            'https://img.freepik.com/premium-vector/single-line-drawing-male-businessman-typing-business-ideas-concept-laptop-while-sitting-premi_615031-256.jpg',
+            'https://img.freepik.com/premium-vector/single-line-drawing-male-businessman-typing-business-ideas-concept-laptop-while-sitting-premi_615031-256.jpg',
+            caption='Programmer',
+            description='Programmer typing code')
+
+        bot.answer_inline_query(inline_query.id, [r, r2, p1], cache_time=0)
+
+    except Exception as e:
+        logging.error("Error handling inline query: %s", e)
+        print(e)
