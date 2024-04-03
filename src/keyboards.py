@@ -63,18 +63,23 @@ def all_messages(message):
     global user_input
     if message.text == "Send":
         if user_input:
-            bot.reply_to(user_input, 'ok')
             bot.send_message(message.chat.id, user_input)
+            bot.reply_to(message, 'ok')
             user_input = ""
     elif message.text == "✅Done":
         markup = telebot.types.ReplyKeyboardRemove()
-        bot.send_message(message.from_user.id, "Done with Keyboard", reply_markup=markup)
+        bot.send_message(message.from_user.id,
+                         "Done with Keyboard",
+                         reply_markup=markup)
     elif message.text == "Symbols":
-        bot.send_message(message.from_user.id, "Special characters", reply_markup=keyboard("Symbols"))
+        bot.send_message(message.from_user.id, "Special characters",
+                         reply_markup=keyboard("Symbols"))
     elif message.text == "Normal":
-        bot.send_message(message.from_user.id, "Normal Keyboard", reply_markup=keyboard("Normal"))
+        bot.send_message(message.from_user.id, "Normal Keyboard",
+                         reply_markup=keyboard("Normal"))
     elif message.text == "Caps Lock":
-        bot.send_message(message.from_user.id, "Caps Lock", reply_markup=keyboard("Caps"))
+        bot.send_message(message.from_user.id, "Caps Lock",
+                         reply_markup=keyboard("Caps"))
     elif message.text == "🔙Delete":
         bot.delete_message(message.from_user.id, message.message_id)
     else:

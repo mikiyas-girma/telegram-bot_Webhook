@@ -1,10 +1,22 @@
 from main_bot import bot
+from telebot.types import (ReplyKeyboardMarkup, KeyboardButton,
+                           KeyboardButtonPollType, ChatPhoto)
 
 
 @bot.message_handler(commands=['start', 'hello'])
 def send_welcome(message):
+    keyboard = ReplyKeyboardMarkup(one_time_keyboard=True)
+    keyboard.resize_keyboard = True
+    keyboard.row_width = 3
+    keyboard.add(KeyboardButton('finish'),
+                 KeyboardButton(
+                     'create poll',
+                     request_poll=KeyboardButtonPollType('regular')))
+
+    print(bot.get_chat_member_count('@tikvahethiopia'))
+
     bot.send_message(message.chat.id, f"{message.from_user.first_name}" +
-                     " ye geta sra dink nw ")
+                     " you fine? ", reply_markup=keyboard)
 
 
 def handle_command(bot, message):
