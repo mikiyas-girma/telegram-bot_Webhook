@@ -1,9 +1,10 @@
 import telebot
 from main_bot import bot
 from flask import Flask, request
-import end
 import message_handlers
 import inline_handlers
+import callback_handlers
+import keyboards
 
 app = Flask(__name__)
 

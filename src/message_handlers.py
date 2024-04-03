@@ -58,10 +58,3 @@ def send_link(message):
 @bot.message_handler(commands=['photo', 'videos'])
 def prompt_user(message):
     handle_command(bot, message)
-
-
-@bot.message_handler(func=lambda message: True)
-def handle_message(message):
-    # Echo the message back to the user
-    print(message.text)
-    bot.send_message(message.chat.id, message.text)
