@@ -1,19 +1,17 @@
-import os
 import telebot
+from main_bot import bot
 from flask import Flask, request
-from telegram_utils import bot
-
+import end
+import message_handlers
+import inline_handlers
 
 app = Flask(__name__)
-
-BOT_TOKEN = os.getenv('BOT_TOKEN')
-WEBHOOK_URL = os.getenv('WEBHOOK_URL')
 
 
 @app.route('/webhook', methods=['POST'])
 def webhook_handler():
-    update = telebot.types.Update.de_json(request.stream.read()
-                                          .decode('utf-8'))
+    update = telebot.types.Update.de_json(
+        request.stream.read().decode('utf-8'))
     bot.process_new_updates([update])
     return '', 200
 

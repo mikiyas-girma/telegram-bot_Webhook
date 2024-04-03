@@ -1,88 +1,8 @@
-from io import BytesIO
+# from io import BytesIO
+# import requests
 import logging
-import requests
-import telebot
-import os
 from telebot import types
-
-BOT_TOKEN = os.getenv('BOT_TOKEN')
-WEBHOOK_URL = os.getenv('WEBHOOK_URL')
-
-bot = telebot.TeleBot(BOT_TOKEN)
-bot.set_webhook(WEBHOOK_URL)
-
-
-@bot.message_handler(commands=['start', 'hello'])
-def send_welcome(message):
-    bot.send_message(message.chat.id, f"{message.from_user.first_name}" +
-                     " ye geta sra dink nw ")
-
-
-def send_message(bot, chat_id, text):
-    bot.send_message(chat_id, text)
-
-
-def handle_command(bot, message):
-    command = message.text
-    if command == "/photo":
-        bot.send_message(message.chat.id, text="Please upload jpg type image")
-    elif command == "/videos":
-        bot.send_message(message.chat.id, text="Please upload video")
-    elif command == "/doc":
-        bot.send_message(message.chat.id, text="Please upload your doc")
-
-
-@bot.message_handler(content_types=['photo'])
-def handle_photo_upload(message):
-    photo_file_id = message.photo[-1].file_id
-    file_info = bot.get_file(photo_file_id)
-    bot.send_message(message.chat.id, file_info.file_path)
-    bot.send_photo(message.chat.id, photo_file_id,
-                   caption="Thank you for uploading photo!")
-
-
-uploaded_videos = {}
-
-
-@bot.message_handler(content_types=['video'])
-def handle_video_upload(message):
-    video_file_id = message.video.file_id
-    # bot.send_message(message.chat.id, f"{message.video}\
-    #                  thank you for the video")
-    bot.send_video(message.chat.id, video_file_id,
-                   caption="here is what you sent")
-    uploaded_videos[message.chat.id] = video_file_id
-
-
-@bot.message_handler(commands=['showvideo'])
-def show_uploaded_video(message):
-    chat_id = message.chat.id
-    if chat_id in uploaded_videos:
-        video_file_id = uploaded_videos[chat_id]
-        bot.send_video(chat_id, video_file_id)
-    else:
-        bot.send_message(chat_id, "No video was uploaded previously.")
-
-
-@bot.message_handler(commands=['link'])
-def send_link(message):
-    bot.send_message(message.chat.id,
-                     "link to the bot: http://t.me/Pybot_exBot")
-
-
-@bot.message_handler(commands=['photo', 'videos'])
-def prompt_user(message):
-    handle_command(bot, message)
-
-
-@bot.message_handler(func=lambda message: True)
-def handle_message(message):
-    # Echo the message back to the user
-    print(message.text)
-    bot.send_message(message.chat.id, message.text)
-
-
-# bot.remove_webhook()
+from main_bot import bot
 
 
 @bot.inline_handler(lambda query: query.query == 'miki')
@@ -173,10 +93,10 @@ def query_audio(inline_query):
             '11',
             'https://archive.org/download/mona_lisa_2403.poem_librivox/monalisa_horsford_dbw_128kb.mp3',
             title='monalisa',
-            caption='piano'
+            caption='piano mike'
             )
 
-        bot.answer_inline_query(inline_query.id, [a1], cache_time=300)
+        bot.answer_inline_query(inline_query.id, [a1], cache_time=0)
 
     except Exception as e:
         logging.error("error handling inline query: %s", e)
